@@ -239,10 +239,10 @@ for top_cluster in top_clusters:
     
     final_texts.append(cluster_df["text"][index])
 
-print(json.dumps(final_texts))
+# print(json.dumps(final_texts))
 
 diction={"USA":final_texts,"Singapore":[]}
-
+print(json.dunps(diction))
 
 #twit is the list of the output from the api
 
