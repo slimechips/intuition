@@ -1,5 +1,6 @@
 # :eyes: Perspective Bot
-> Are we even aware of our biases anymore? It needs to be fixed. \n
+> Are we even aware of our biases anymore? It needs to be fixed.
+
 >If you look at this chart and are convinced your “extreme” source belongs in the middle, you just might be part of the problem.
 
 ![News Bias](news_bias.jpg)
