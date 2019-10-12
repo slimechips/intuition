@@ -1,5 +1,5 @@
 # :eyes: Perspective Bot
-> Are we even aware of our biases anymore? It needs to be fixed. 
+> Are we even aware of our biases anymore? It needs to be fixed. \n
 >If you look at this chart and are convinced your “extreme” source belongs in the middle, you just might be part of the problem.
 
 ![News Bias](news_bias.jpg)
@@ -25,3 +25,4 @@ Lorem Ipsum
 3. [Mario Josepha](https://github.com/)
 4. [Jason Chow](https://github.com/slimechips)
 
+> Built for iNTUition 6.0
