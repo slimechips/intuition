@@ -1,0 +1,9 @@
+{
+  "version": "2.0.0",
+  "tasks": [{
+      "label": "nodemon listen",
+      "command": "npm", // Could be any other shell command
+      "args": ["run", "dev:debug"],
+      "type": "shell"
+  }]
+}

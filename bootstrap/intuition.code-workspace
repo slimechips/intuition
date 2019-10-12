@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../chrome_ext"
+		},
+		{
+			"path": "../common-util"
+		},
+		{
+			"path": "../intuition_nlp_backend"
+		},
+		{
+			"path": "../web-svc"
+		}
+	]
+}

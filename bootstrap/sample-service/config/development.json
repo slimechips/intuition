@@ -1,0 +1,5 @@
+{
+  "service": "web-svc",
+  "endpoints_file": "../etc/endpoints.json",
+  "client_secret": "secret"
+}
