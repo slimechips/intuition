@@ -13,6 +13,7 @@ from sklearn.preprocessing import normalize
 from scipy.optimize import curve_fit 
 from matplotlib import pyplot as plt
 import numpy.matlib
+import json
 
 twit_text=[]
 twit_loc=[]
@@ -59,7 +60,7 @@ if(len(twit_loc)<50):
 else:
     maxlim=50
 
-print(len(twit_text))
+# print(len(twit_text))
 
 
 
@@ -79,14 +80,14 @@ class bert_instance():
         for text in processed_texts:
             all_vectors.append(self.return_vectors(text))
         all_vectors=np.array(all_vectors)
-        print(all_vectors)
-        print(all_vectors.shape)
+        # print(all_vectors)
+        # print(all_vectors.shape)
         matrix=cosine_similarity(all_vectors,enquiry_vector)
         return(matrix)
         
     def return_vector(self,text):
         vectorfile=self.bert_embedding([text]) 
-        print(len(vectorfile))
+        # print(len(vectorfile))
         #for i in range(len(vectorfile)):
         vectorlist=vectorfile[0][1]
         #print(vectorlist)
@@ -101,7 +102,7 @@ class bert_instance():
     
     def return_vectors(self,texts):
         vectorfile=self.bert_embedding(texts) 
-        print((vectorfile))
+        # print((vectorfile))
         #for i in range(len(vectorfile)):
         #vectorlist=vectorfile[0][1]
         return(vectorfile)
@@ -137,7 +138,7 @@ K = list(range(n1,n2))
 import heapq
 k_dataframes={}
 for k in K:
-    print(k)
+    # print(k)
     data2=pd.DataFrame()
     data1=vectors
     #pickle_in = open(r"C:\Users\Rahul_Bhattacharjee\Documents\Data_team_work\Classifier\OSR_BERT\vector_files\models\kmeans_models_non_normalized\kmeans_stopremoved_"+str(k)+"_model.sav", "rb")
@@ -198,8 +199,8 @@ distToLine = np.sqrt(np.sum(vecToLine ** 2, axis=1))
 # knee/elbow is the point with max distance value
 idxOfBestPoint = np.argmax(distToLine)
 
-print("Knee of the curve is at index =",idxOfBestPoint)
-print("Knee value =", values[idxOfBestPoint])
+# print("Knee of the curve is at index =",idxOfBestPoint)
+# print("Knee value =", values[idxOfBestPoint])
 
 optimal_k=idxOfBestPoint+n1
 
@@ -211,7 +212,7 @@ best_dataframe["text"]=twit_text
 
 unique_clusters=range(n1,optimal_k+1)
 
-print(unique_clusters)
+# print(unique_clusters)
 cluster_length=[]
 for cluster in unique_clusters:
     cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==cluster]
@@ -223,7 +224,7 @@ top_clusters=list(len_cluster_tuples[1])
 
 final_texts=[]
 
-print(best_dataframe["predicted_cluster"])
+# print(best_dataframe["predicted_cluster"])
 
 for top_cluster in top_clusters:
     cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==top_cluster]
@@ -238,7 +239,7 @@ for top_cluster in top_clusters:
     
     final_texts.append(cluster_df["text"][index])
 
-print((final_texts))
+print(json.dumps(final_texts))
 
 diction={"USA":final_texts,"Singapore":[]}
 
