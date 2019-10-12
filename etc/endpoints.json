@@ -1,0 +1,9 @@
+{
+  "web": {
+    "url_scheme": "http://",
+    "service_name": "web-svc",
+    "local_host": "localhost",
+    "http_port": 3030,
+    "path": ""
+  }
+}
