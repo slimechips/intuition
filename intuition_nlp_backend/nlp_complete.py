@@ -118,7 +118,7 @@ print(len(vectors_test))
 vectorfile=b.return_vectors(twit_text)
 #print((vectorfile[0][1][0]))
 
-print(len(vectorfile[0]))
+# print(len(vectorfile[0]))
 vectors=[np.sum(vectorfile[i][1], axis=0)/len(vectorfile[i][0]) for i in range(maxlim)]
 
 #print(vectors[0])
@@ -146,7 +146,7 @@ for k in K:
     #Declare classifier with a fixed random_state for reproducible results on the same dataset
     km = KMeans(init='k-means++',n_clusters=k,random_state=42)
     km = km.fit(data1)
-    print("data fitted")
+    # print("data fitted")
     #Save the model in a file
     Sum_of_squared_distances.append(km.inertia_)
     #Keep the predicted cluster column
