@@ -18,7 +18,7 @@ app.use(bodyParser.json()); // Body Parser Middle Ware
 app.use(reqLogger); // Logger Middleware
 
 // Init user controller internal routes here
-webController.router.get('/:username/password', webController.getPerspectives);
+webController.router.get('/', webController.getPerspectives);
 
 // Add custom controller routes here
 app.use('/', webController.router);

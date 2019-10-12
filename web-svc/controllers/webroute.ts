@@ -23,7 +23,7 @@ const getSearchParams = (query: string): string[] => {
 const getTwitter = (query: string[]): Promise<object> => {
   if (true) {
     return Promise.resolve({
-      Singapore: ['Singapore rox'],
+      Singapore: ['Singapore rox', 'not really lol', 'u wot m8'],
       India: ['India numba 1'],
       Indo: ['we love haze'],
     });
