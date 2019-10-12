@@ -23,7 +23,9 @@ Our team built a Machine Learning model centrally based on the BERT model with T
 Lorem Ipsum
 
 ### Installation
-Lorem Ipsum
+1. Download Google Chrome Extention from [here](https://github.com).
+2. In the Chrome Address Bar, type `chrome://extensions/` and Toggle `Developer Mode` to ON (top-right pane)
+3. Using the `Load unpacked` button, select the folder downloaded in Step 1 to load the app in Chrome and enable the extention.
 
 ### Team
 1. [Rahul Bhattacharjee](https://github.com/rahulbhatta)
