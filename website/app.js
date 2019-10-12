@@ -1,16 +1,10 @@
-// dummy data to test
-// const data = {
-//     "Singapore": ["The world is ending1","The world is ending2","The world is ending3"],
-//     "India": ["The world is ending4","The world is ending5","The world is ending6"],
-//     "Indonesia": ["The world is ending7","The world is ending8"]
-// };
-
 // check if button is successfully updated
 var isUpdated = false;
 
 // current data
 var data = null;
 const api_url = "http://localhost:3030";
+// const api_url = "http://52.147.31.10:3030"
 $(document).ready(function() {
     // check the web parameter
     const current_url = window.location.href;
