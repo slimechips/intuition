@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 const svc = 'web';
 process.env.SVC = `${svc}-svc`;
@@ -16,6 +17,8 @@ const app: express.Application = express();
 app.use(bodyParser.urlencoded({ extended: true })); // Body Parser Middle Ware
 app.use(bodyParser.json()); // Body Parser Middle Ware
 app.use(reqLogger); // Logger Middleware
+app.use(cors({ origin: '*' })); // Cors middleware
+
 
 // Init user controller internal routes here
 webController.router.get('/', webController.getPerspectives);
