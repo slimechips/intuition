@@ -6,7 +6,6 @@ from bert_embedding import BertEmbedding
 from sklearn.metrics.pairwise import cosine_similarity
 
 from sklearn.cluster import KMeans
-import pickle
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import normalize
 
@@ -19,6 +18,7 @@ twit_loc=[]
 twit_id=[]
 
 #Splits your query into keywords
+query="hot dog opinion"
 keywords = query.split(" ")
 
 try:
@@ -47,11 +47,20 @@ try:
 except TwitterSearchException as e: # take care of all those ugly errors if there are some
     print(e)
 
+
+
 twit_text=twit_text[:50]
 twit_loc=twit_loc[:50]
 twit_id=twit_id[:50]
 
-print(twit_loc)
+if(len(twit_loc)<50):
+    maxlim=len(twit_loc)
+else:
+    maxlim=50
+
+print(len(twit_text))
+
+
 
 df=pd.DataFrame()
 df["text"]=twit_text
@@ -106,7 +115,9 @@ print(len(vectors_test))
 
 vectorfile=b.return_vectors(twit_text)
 #print((vectorfile[0][1][0]))
-vectors=[np.sum(vectorfile[i][1], axis=0)/len(vectorfile[i][0]) for i in range(50)]
+
+print(len(vectorfile[0]))
+vectors=[np.sum(vectorfile[i][1], axis=0)/len(vectorfile[i][0]) for i in range(maxlim)]
 
 #print(vectors[0])
 
