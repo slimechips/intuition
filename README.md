@@ -10,10 +10,11 @@
 ![Perspective Bot](perspectivebot.png)
 
 ### Problem Statement
-Lorem Ipsum
+* Many sources people consider to be ‘news sources’ are actually dominated by analysis and opinion pieces. It is hard for people to determine news as 'news' or 'opinions'.  
+* It is important to reduce the bias that the media introduces as well as our own biases. 
 
 ### Solution
-Lorem Ipsum
+Our team built a Machine Learning model centrally based on the BERT model ...
 
 ### Screenshots
 Lorem Ipsum
