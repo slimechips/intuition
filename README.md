@@ -5,7 +5,7 @@
 ![News Bias](news_bias.jpg)
 
 
-**Perspective Bot** is a Chrome Extension where you can enter the news we hear about to get more context about it. Using Machine Learning algorithms like BERT, you can know the top opinions about the news entered grouped by the top countries with the most hits. 
+**Perspective Bot** is a Chrome Extension where we can input the news we hear about to get more context about it. Using Machine Learning algorithms like BERT (Bidirectional Encoder Representations from Transformers) and clustering, the bot can show different perspectives about the news grouped by countries with the most hits about the news. 
 
 ### Problem Statement
 Lorem Ipsum
