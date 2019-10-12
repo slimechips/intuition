@@ -1,5 +1,8 @@
 {
   "service": "web-svc",
   "endpoints_file": "../etc/endpoints.json",
-  "client_secret": "secret"
+  "client_secret": "secret",
+  "python": {
+    "twitter": ""
+  }
 }

@@ -8,7 +8,7 @@ import { reqLogger } from 'common-util/logger';
 import { errorHandler } from 'common-util/error';
 
 // Controllers
-import * as userController from './controllers/webroute';
+import * as webController from './controllers/webroute';
 
 const app: express.Application = express();
 
@@ -18,10 +18,10 @@ app.use(bodyParser.json()); // Body Parser Middle Ware
 app.use(reqLogger); // Logger Middleware
 
 // Init user controller internal routes here
-// userController.router.get('/:username/password', userController.getPassword);
+webController.router.get('/:username/password', webController.getPerspectives);
 
 // Add custom controller routes here
-app.use('/user', userController.router);
+app.use('/', webController.router);
 
 // Error Handling Middleware goes here
 app.use(errorHandler);

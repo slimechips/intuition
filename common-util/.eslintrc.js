@@ -5,7 +5,7 @@ module.exports = {
     },
     parser: '@typescript-eslint/parser',
     plugins: ['@typescript-eslint'],
-    extends: ['airbnb-base'],
+    extends: ["airbnb-base", "plugin:@typescript-eslint/recommended"],
     globals: {
         Atomics: "readonly",
         SharedArrayBuffer: "readonly"
@@ -20,5 +20,6 @@ module.exports = {
         "no-use-before-define": "off",
         "import/prefer-default-export": "off",
         "no-underscore-dangle": "off",
+        "prefer-promise-reject-errors": "off",
     }
 };
