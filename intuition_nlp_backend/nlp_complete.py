@@ -12,20 +12,21 @@ from sklearn.preprocessing import normalize
 from scipy.optimize import curve_fit 
 from matplotlib import pyplot as plt
 import numpy.matlib
-
+import sys
 twit_text=[]
 twit_loc=[]
 twit_id=[]
+    
 
+query=sys.argv[1]
 #Splits your query into keywords
-query="hot dog opinion"
 keywords = query.split(" ")
 
 try:
     tso = TwitterSearchOrder() # create a TwitterSearchOrder object
     tso.set_keywords(keywords) # let's define all words we would like to have a look for
     tso.set_language('en') # we want to see German tweets only
-    tso.set_include_entities(False) # and don't give us all those entity information
+    tso.set_include_entities(False) # and don't give us all those entity informatio
 
     # it's about time to create a TwitterSearch object with our secret tokens
     ts = TwitterSearch(
@@ -49,16 +50,17 @@ except TwitterSearchException as e: # take care of all those ugly errors if ther
 
 
 
-twit_text=twit_text[:50]
-twit_loc=twit_loc[:50]
-twit_id=twit_id[:50]
+twit_text=twit_text[:300]
+twit_loc=twit_loc[:300]
+print(twit_loc)
+twit_id=twit_id[:300]
 
-if(len(twit_loc)<50):
+if(len(twit_loc)<300):
     maxlim=len(twit_loc)
 else:
-    maxlim=50
+    maxlim=300
 
-print(len(twit_text))
+# print(len(twit_text))
 
 
 
@@ -78,8 +80,8 @@ class bert_instance():
         for text in processed_texts:
             all_vectors.append(self.return_vectors(text))
         all_vectors=np.array(all_vectors)
-        print(all_vectors)
-        print(all_vectors.shape)
+        #print(all_vectors)
+        #print(all_vectors.shape)
         matrix=cosine_similarity(all_vectors,enquiry_vector)
         return(matrix)
         
@@ -100,7 +102,7 @@ class bert_instance():
     
     def return_vectors(self,texts):
         vectorfile=self.bert_embedding(texts) 
-        print((vectorfile))
+       #print((vectorfile))
         #for i in range(len(vectorfile)):
         #vectorlist=vectorfile[0][1]
         return(vectorfile)
@@ -116,7 +118,7 @@ print(len(vectors_test))
 vectorfile=b.return_vectors(twit_text)
 #print((vectorfile[0][1][0]))
 
-print(len(vectorfile[0]))
+#print(len(vectorfile[0]))
 vectors=[np.sum(vectorfile[i][1], axis=0)/len(vectorfile[i][0]) for i in range(maxlim)]
 
 #print(vectors[0])
@@ -144,7 +146,7 @@ for k in K:
     #Declare classifier with a fixed random_state for reproducible results on the same dataset
     km = KMeans(init='k-means++',n_clusters=k,random_state=42)
     km = km.fit(data1)
-    print("data fitted")
+    #print("data fitted")
     #Save the model in a file
     Sum_of_squared_distances.append(km.inertia_)
     #Keep the predicted cluster column
@@ -197,8 +199,8 @@ distToLine = np.sqrt(np.sum(vecToLine ** 2, axis=1))
 # knee/elbow is the point with max distance value
 idxOfBestPoint = np.argmax(distToLine)
 
-print("Knee of the curve is at index =",idxOfBestPoint)
-print("Knee value =", values[idxOfBestPoint])
+#print("Knee of the curve is at index =",idxOfBestPoint)
+#print("Knee value =", values[idxOfBestPoint])
 
 optimal_k=idxOfBestPoint+n1
 
@@ -210,7 +212,7 @@ best_dataframe["text"]=twit_text
 
 unique_clusters=range(n1,optimal_k+1)
 
-print(unique_clusters)
+#print(unique_clusters)
 cluster_length=[]
 for cluster in unique_clusters:
     cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==cluster]
@@ -237,7 +239,7 @@ for top_cluster in top_clusters:
     
     final_texts.append(cluster_df["text"][index])
 
-print((final_texts))
+#print((final_texts))
 
 diction={"USA":final_texts,"Singapore":[]}
 
