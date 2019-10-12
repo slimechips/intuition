@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from bert_embedding import BertEmbedding
 from sklearn.metrics.pairwise import cosine_similarity
+import sys
 
 from sklearn.cluster import KMeans
 from sklearn.neighbors import KNeighborsClassifier
@@ -18,7 +19,7 @@ twit_loc=[]
 twit_id=[]
 
 #Splits your query into keywords
-query="hot dog opinion"
+query = sys.argv[1]
 keywords = query.split(" ")
 
 try:

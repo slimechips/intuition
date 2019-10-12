@@ -11,7 +11,7 @@ export const runPython = (pythonFile: string, params: Array<string>): Promise<ob
     });
 
     pyS.stderr.on('data', (err: Buffer) => {
-      reject(err);
+      reject(err.toString());
     });
 
     pyS.on('close', (status: number) => {

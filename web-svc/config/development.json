@@ -3,6 +3,10 @@
   "endpoints_file": "../etc/endpoints.json",
   "client_secret": "secret",
   "python": {
-    "twitter": ""
+    "twitter": "../intuition_nlp_backend/nlp_complete.py"
+  },
+  "snooowrap": {
+    "userAgent": "intuitive",
+    "clientId": ""
   }
 }
