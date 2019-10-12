@@ -25,7 +25,7 @@ Lorem Ipsum
 ### Team
 1. [Rahul Bhattacharjee](https://github.com/rahulbhatta)
 2. [Jay Gupta](https://github.com/guptajay)
-3. [Mario Josepha](https://github.com/)
+3. [Mario Josepha](https://github.com/mjosephan2)
 4. [Jason Chow](https://github.com/slimechips)
 
 ---
