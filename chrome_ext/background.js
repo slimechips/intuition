@@ -5,8 +5,7 @@
 'use strict';
 
 const generateReport = (text) => {
-  const query = text.selectionText;
-  const reportUrl = `http://localhost:3000/report#selectionText=${query}`;
+  const reportUrl = `http://localhost:3000/report?selectionText=${text}`;
   chrome.tabs.create({
     url: reportUrl,
   })
