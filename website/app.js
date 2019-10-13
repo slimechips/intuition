@@ -167,9 +167,16 @@ function update_opinion(country){
 
 function add_opinion(index,opinion){
     var parent = document.getElementById('opinion');
+    var new_class = "";
+    if (index == 2){
+        new_class = "text-white bg-dark mb-3"
+    }
+    else if(index >= 3){
+        new_class = "text-white bg-info mb-3"
+    }
     parent.innerHTML+=
     `
-    <div class="card" style="margin-bottom:20px">
+    <div class="card `+new_class+`" style="margin-bottom:20px">
         <div class="card-header">
             Opinion `+index+
         `</div>
