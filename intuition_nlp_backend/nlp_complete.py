@@ -37,14 +37,14 @@ try:
     tso = TwitterSearchOrder() # create a TwitterSearchOrder object
     tso.set_keywords(keywords) # let's define all words we would like to have a look for
     tso.set_language('en') # we want to see German tweets only
-    tso.set_include_entities(False) # and don't give us all those entity informatio
+    tso.set_include_entities(False) # and don't gie us all those entity informatio
 
     # it's about time to create a TwitterSearch object with our secret tokens
     ts = TwitterSearch(
-        consumer_key = 'pBuUgmNwCz54gmDF8GwU38AYm',
-        consumer_secret = 'Bphw2DE6XB047l9gmMbZIDWo6W7T3Uz7d5duETQuBP2HKN0jkp',
-        access_token = '1182649652581036032-iSG4xluU7YyjRKzZtJCp8rTo8yPv1d',
-        access_token_secret = 'VcFdtKSjPQx5fmTbIG78Jj8b83jXvwgjJQw5Uextw4NTB')
+        consumer_key = 'o7Lk8ooAVUqc9erAcuyIAbS9K',
+        consumer_secret = 'OTQ4HjnXADtFa0W8WLFiqSimSUOiHuCvukcmaSnadEZYWYnRdL',
+        access_token = '126936259-Pwcpo6UMhvnSmbtrHgXEdSIctrbgj9aQZJi8Wzhv',
+        access_token_secret = 'Ga8smMYFZUSAFWQqMv0PYdOfeCj9hbY1tDS0zbvtq9Ihj')
      # this is where the fun actually starts :)
     for tweet in ts.search_tweets_iterable(tso):
         #print( '@%s tweeted: %s' % ( tweet['user']['screen_name'], tweet['text'] ) )
