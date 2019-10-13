@@ -94,7 +94,7 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
   </head>
 
-  <body>
+  <body style="margin-bottom:100px">
     <div class="header-nightsky">
       <nav class="navbar navbar-default">
         <div class="container">
@@ -121,8 +121,8 @@
       </div>
     </div>
     <div class="container" style="margin-top:30px">
-      <div class="row justify-content-center">
-        <div class="col-sm-3">
+      <div id="countries" class="row justify-content-center">
+        <!-- <div class="col-sm-3">
           <button id="country1" type="button" class="btn btn-primary btn-block">
             Country 1
           </button>
@@ -144,38 +144,13 @@
           >
             Country 3
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
 
-    <div class="container" style="margin-top:30px">
-      <div class="card" style="margin-bottom:20px">
-        <div class="card-header">
-          Opinion 1
-        </div>
-        <div class="card-body">
-          <blockquote id="body1" class="blockquote mb-0"></blockquote>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom:20px">
-        <div class="card-header">
-          Opinion 2
-        </div>
-        <div class="card-body">
-          <blockquote id="body2" class="blockquote mb-0"></blockquote>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom:20px">
-        <div class="card-header">
-          Opinion 3
-        </div>
-        <div class="card-body">
-          <blockquote id="body3" class="blockquote mb-0"></blockquote>
-        </div>
-      </div>
+    <div id="opinion" class="container" style="margin-top:30px">
     </div>
+    
     <footer
       id="sticky-footer"
       class="py-4 bg-dark text-white-50 fixed-bottom"
