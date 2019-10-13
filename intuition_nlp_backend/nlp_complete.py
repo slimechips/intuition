@@ -1,7 +1,10 @@
 from TwitterSearch import *
 
+import googlemaps
+
 import pandas as pd
 import numpy as np
+import time
 from bert_embedding import BertEmbedding
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -13,10 +16,13 @@ from scipy.optimize import curve_fit
 from matplotlib import pyplot as plt
 import numpy.matlib
 import sys
+
+
+
 twit_text=[]
 twit_loc=[]
 twit_id=[]
-    
+
 
 query=sys.argv[1]
 #Splits your query into keywords
@@ -48,11 +54,9 @@ try:
 except TwitterSearchException as e: # take care of all those ugly errors if there are some
     print(e)
 
-
-
 twit_text=twit_text[:300]
 twit_loc=twit_loc[:300]
-print(twit_loc)
+#print(twit_loc)
 twit_id=twit_id[:300]
 
 if(len(twit_loc)<300):
@@ -61,8 +65,6 @@ else:
     maxlim=300
 
 # print(len(twit_text))
-
-
 
 df=pd.DataFrame()
 df["text"]=twit_text
@@ -87,7 +89,7 @@ class bert_instance():
         
     def return_vector(self,text):
         vectorfile=self.bert_embedding([text]) 
-        print(len(vectorfile))
+        #print(len(vectorfile))
         #for i in range(len(vectorfile)):
         vectorlist=vectorfile[0][1]
         #print(vectorlist)
@@ -105,10 +107,10 @@ class bert_instance():
        #print((vectorfile))
         #for i in range(len(vectorfile)):
         #vectorlist=vectorfile[0][1]
-        return(vectorfile)
-        
+        return(vectorfile)        
         
 b=bert_instance()     
+
 """
 test_texts=["haha what a good day","this was a horrible experience, never coming again","airplanes airlines and all things air"]
 vectors_test=(b.return_vectors(test_texts))
@@ -134,11 +136,10 @@ n1=3
 n2=20
 K = list(range(n1,n2))
 
-
 import heapq
 k_dataframes={}
 for k in K:
-    print(k)
+    #print(k)
     data2=pd.DataFrame()
     data1=vectors
     #pickle_in = open(r"C:\Users\Rahul_Bhattacharjee\Documents\Data_team_work\Classifier\OSR_BERT\vector_files\models\kmeans_models_non_normalized\kmeans_stopremoved_"+str(k)+"_model.sav", "rb")
@@ -204,46 +205,77 @@ idxOfBestPoint = np.argmax(distToLine)
 
 optimal_k=idxOfBestPoint+n1
 
-best_dataframe=k_dataframes[optimal_k]
-best_dataframe["vectors"]=df["vectors"]
-best_dataframe["id"]=twit_id
-best_dataframe["location"]=twit_loc
-best_dataframe["text"]=twit_text
+gmaps = googlemaps.Client(key='AIzaSyD7V-9-jSxhDqfoaE5RyqO7mmmovt09HqY')
+
+#check if status=='OK', else input NA into location
+#to get country from api call, ((dic["candidates"][0]["formatted_address"]).split(", ")[1])
+
+def location(loc):
+    if(len(loc)==0):
+        return("NA")
+    searchBox = googlemaps.places.find_place(gmaps,input=loc,input_type='textquery',fields=['formatted_address','name'])
+    try:
+        if(searchBox["status"]=='OK'):
+            if(", " in searchBox["candidates"][0]["formatted_address"]):
+                return((searchBox["candidates"][0]["formatted_address"]).split(", ")[1])
+            else:
+                return(searchBox["candidates"][0]["formatted_address"])
+        else:
+            return("NA")
+    except:
+        return("NA")
+
+best_dataframe2=k_dataframes[optimal_k]
+best_dataframe2["vectors"]=df["vectors"]
+best_dataframe2["id"]=twit_id
+
+df_countries=[]
+
+for i in range(len(df)):
+    df_countries.append(location(df["location"][i]))
+
+best_dataframe2["country"]=df_countries
+    
+best_dataframe2["text"]=twit_text
 
 unique_clusters=range(n1,optimal_k+1)
 
 #print(unique_clusters)
-cluster_length=[]
-for cluster in unique_clusters:
-    cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==cluster]
-    cluster_length.append(len(cluster_df))
 
-len_cluster_tuples=list(heapq.nlargest(10, zip(cluster_length, unique_clusters)))
-len_cluster_tuples=list(zip(*len_cluster_tuples)) 
-top_clusters=list(len_cluster_tuples[1])
+diction={}
 
-final_texts=[]
-
-print(best_dataframe["predicted_cluster"])
-
-for top_cluster in top_clusters:
-    cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==top_cluster]
-    if(cluster_df.empty==True):
-        continue
-    cluster_df=cluster_df.reset_index()
-    sim_matrix=cosine_similarity(list(cluster_df["vectors"]))
-    sums=[]
-    for i in sim_matrix:
-        sums.append(sum(i))
-    index=np.argmax(sums)
+countries=np.unique(best_dataframe2["country"])
+for country in countries:
+    best_dataframe=best_dataframe2[best_dataframe2["country"]==country]
+    cluster_length=[]
+    for cluster in unique_clusters:
+        cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==cluster]
+        cluster_length.append(len(cluster_df))
     
-    final_texts.append(cluster_df["text"][index])
+    len_cluster_tuples=list(heapq.nlargest(10, zip(cluster_length, unique_clusters)))
+    len_cluster_tuples=list(zip(*len_cluster_tuples)) 
+    top_clusters=list(len_cluster_tuples[1])
+    
+    final_texts=[]
+    
+    #print(best_dataframe["predicted_cluster"])
+    
+    for top_cluster in top_clusters:
+        cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==top_cluster]
+        if(cluster_df.empty==True):
+            continue
+        cluster_df=cluster_df.reset_index()
+        sim_matrix=cosine_similarity(list(cluster_df["vectors"]))
+        sums=[]
+        for i in sim_matrix:
+            sums.append(sum(i))
+        index=np.argmax(sums)
+        
+        final_texts.append(cluster_df["text"][index])
+    
+    diction[country]=final_texts
 
-#print((final_texts))
-
-diction={"USA":final_texts,"Singapore":[]}
-
-
+print(diction)
 #twit is the list of the output from the api
 
 #0. For each country
@@ -251,5 +283,3 @@ diction={"USA":final_texts,"Singapore":[]}
 #2. Automated K means - clustering
 #3. Top 3 cluster representatives
 #4. Return
-
-
