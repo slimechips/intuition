@@ -16,17 +16,16 @@ from scipy.optimize import curve_fit
 from matplotlib import pyplot as plt
 import numpy.matlib
 import sys
-
-
+import json
 
 twit_text=[]
 twit_loc=[]
 twit_id=[]
 
-
 query=sys.argv[1]
 #Splits your query into keywords
 keywords = query.split(" ")
+
 
 try:
     tso = TwitterSearchOrder() # create a TwitterSearchOrder object
@@ -111,12 +110,6 @@ class bert_instance():
         
 b=bert_instance()     
 
-"""
-test_texts=["haha what a good day","this was a horrible experience, never coming again","airplanes airlines and all things air"]
-vectors_test=(b.return_vectors(test_texts))
-print(len(vectors_test))
-"""
-
 vectorfile=b.return_vectors(twit_text)
 #print((vectorfile[0][1][0]))
 
@@ -134,6 +127,14 @@ Sum_of_squared_distances=[]
 #Set the range of K you want to iterate over
 n1=3
 n2=20
+
+#handle any errors
+if(len(vectors)<n2 and len(vectors)>0):
+    n2=len(vectors)
+if(len(vectors)==0):
+    print({})
+    exit
+
 K = list(range(n1,n2))
 
 import heapq
@@ -275,7 +276,7 @@ for country in countries:
     
     diction[country]=final_texts
 
-print(diction)
+print(json.dumps(diction))
 #twit is the list of the output from the api
 
 #0. For each country
