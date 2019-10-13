@@ -16,7 +16,7 @@ export const getPerspectives = (req: Request,
 };
 
 const getSearchParams = (query: string): string[] => {
-  const fQuery: string = decodeURIComponent(query);
+  const fQuery = `${decodeURIComponent(query)} opinion`;
   return fQuery.split(/[\s,]+/);
 };
 
