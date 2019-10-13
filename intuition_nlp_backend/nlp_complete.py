@@ -1,7 +1,10 @@
 from TwitterSearch import *
 
+import googlemaps
+
 import pandas as pd
 import numpy as np
+import time
 from bert_embedding import BertEmbedding
 from sklearn.metrics.pairwise import cosine_similarity
 import sys
@@ -13,21 +16,23 @@ from sklearn.preprocessing import normalize
 from scipy.optimize import curve_fit 
 from matplotlib import pyplot as plt
 import numpy.matlib
+import sys
 import json
 
 twit_text=[]
 twit_loc=[]
 twit_id=[]
 
+query=sys.argv[1]
 #Splits your query into keywords
-query = sys.argv[1]
 keywords = query.split(" ")
+
 
 try:
     tso = TwitterSearchOrder() # create a TwitterSearchOrder object
     tso.set_keywords(keywords) # let's define all words we would like to have a look for
     tso.set_language('en') # we want to see German tweets only
-    tso.set_include_entities(False) # and don't give us all those entity information
+    tso.set_include_entities(False) # and don't give us all those entity informatio
 
     # it's about time to create a TwitterSearch object with our secret tokens
     ts = TwitterSearch(
@@ -49,20 +54,17 @@ try:
 except TwitterSearchException as e: # take care of all those ugly errors if there are some
     print(e)
 
+twit_text=twit_text[:300]
+twit_loc=twit_loc[:300]
+#print(twit_loc)
+twit_id=twit_id[:300]
 
-
-twit_text=twit_text[:50]
-twit_loc=twit_loc[:50]
-twit_id=twit_id[:50]
-
-if(len(twit_loc)<50):
+if(len(twit_loc)<300):
     maxlim=len(twit_loc)
 else:
-    maxlim=50
+    maxlim=300
 
 # print(len(twit_text))
-
-
 
 df=pd.DataFrame()
 df["text"]=twit_text
@@ -80,14 +82,14 @@ class bert_instance():
         for text in processed_texts:
             all_vectors.append(self.return_vectors(text))
         all_vectors=np.array(all_vectors)
-        # print(all_vectors)
-        # print(all_vectors.shape)
+        #print(all_vectors)
+        #print(all_vectors.shape)
         matrix=cosine_similarity(all_vectors,enquiry_vector)
         return(matrix)
         
     def return_vector(self,text):
         vectorfile=self.bert_embedding([text]) 
-        # print(len(vectorfile))
+        #print(len(vectorfile))
         #for i in range(len(vectorfile)):
         vectorlist=vectorfile[0][1]
         #print(vectorlist)
@@ -102,23 +104,17 @@ class bert_instance():
     
     def return_vectors(self,texts):
         vectorfile=self.bert_embedding(texts) 
-        # print((vectorfile))
+       #print((vectorfile))
         #for i in range(len(vectorfile)):
         #vectorlist=vectorfile[0][1]
-        return(vectorfile)
-        
+        return(vectorfile)        
         
 b=bert_instance()     
-"""
-test_texts=["haha what a good day","this was a horrible experience, never coming again","airplanes airlines and all things air"]
-vectors_test=(b.return_vectors(test_texts))
-print(len(vectors_test))
-"""
 
 vectorfile=b.return_vectors(twit_text)
 #print((vectorfile[0][1][0]))
 
-# print(len(vectorfile[0]))
+#print(len(vectorfile[0]))
 vectors=[np.sum(vectorfile[i][1], axis=0)/len(vectorfile[i][0]) for i in range(maxlim)]
 
 #print(vectors[0])
@@ -132,13 +128,20 @@ Sum_of_squared_distances=[]
 #Set the range of K you want to iterate over
 n1=3
 n2=20
-K = list(range(n1,n2))
 
+#handle any errors
+if(len(vectors)<n2 and len(vectors)>0):
+    n2=len(vectors)
+if(len(vectors)==0):
+    print({})
+    exit
+
+K = list(range(n1,n2))
 
 import heapq
 k_dataframes={}
 for k in K:
-    # print(k)
+    #print(k)
     data2=pd.DataFrame()
     data1=vectors
     #pickle_in = open(r"C:\Users\Rahul_Bhattacharjee\Documents\Data_team_work\Classifier\OSR_BERT\vector_files\models\kmeans_models_non_normalized\kmeans_stopremoved_"+str(k)+"_model.sav", "rb")
@@ -146,7 +149,7 @@ for k in K:
     #Declare classifier with a fixed random_state for reproducible results on the same dataset
     km = KMeans(init='k-means++',n_clusters=k,random_state=42)
     km = km.fit(data1)
-    # print("data fitted")
+    #print("data fitted")
     #Save the model in a file
     Sum_of_squared_distances.append(km.inertia_)
     #Keep the predicted cluster column
@@ -199,51 +202,82 @@ distToLine = np.sqrt(np.sum(vecToLine ** 2, axis=1))
 # knee/elbow is the point with max distance value
 idxOfBestPoint = np.argmax(distToLine)
 
-# print("Knee of the curve is at index =",idxOfBestPoint)
-# print("Knee value =", values[idxOfBestPoint])
+#print("Knee of the curve is at index =",idxOfBestPoint)
+#print("Knee value =", values[idxOfBestPoint])
 
 optimal_k=idxOfBestPoint+n1
 
-best_dataframe=k_dataframes[optimal_k]
-best_dataframe["vectors"]=df["vectors"]
-best_dataframe["id"]=twit_id
-best_dataframe["location"]=twit_loc
-best_dataframe["text"]=twit_text
+gmaps = googlemaps.Client(key='AIzaSyD7V-9-jSxhDqfoaE5RyqO7mmmovt09HqY')
+
+#check if status=='OK', else input NA into location
+#to get country from api call, ((dic["candidates"][0]["formatted_address"]).split(", ")[1])
+
+def location(loc):
+    if(len(loc)==0):
+        return("NA")
+    searchBox = googlemaps.places.find_place(gmaps,input=loc,input_type='textquery',fields=['formatted_address','name'])
+    try:
+        if(searchBox["status"]=='OK'):
+            if(", " in searchBox["candidates"][0]["formatted_address"]):
+                return((searchBox["candidates"][0]["formatted_address"]).split(", ")[1])
+            else:
+                return(searchBox["candidates"][0]["formatted_address"])
+        else:
+            return("NA")
+    except:
+        return("NA")
+
+best_dataframe2=k_dataframes[optimal_k]
+best_dataframe2["vectors"]=df["vectors"]
+best_dataframe2["id"]=twit_id
+
+df_countries=[]
+
+for i in range(len(df)):
+    df_countries.append(location(df["location"][i]))
+
+best_dataframe2["country"]=df_countries
+    
+best_dataframe2["text"]=twit_text
 
 unique_clusters=range(n1,optimal_k+1)
 
-# print(unique_clusters)
-cluster_length=[]
-for cluster in unique_clusters:
-    cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==cluster]
-    cluster_length.append(len(cluster_df))
+#print(unique_clusters)
 
-len_cluster_tuples=list(heapq.nlargest(10, zip(cluster_length, unique_clusters)))
-len_cluster_tuples=list(zip(*len_cluster_tuples)) 
-top_clusters=list(len_cluster_tuples[1])
+diction={}
 
-final_texts=[]
-
-# print(best_dataframe["predicted_cluster"])
-
-for top_cluster in top_clusters:
-    cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==top_cluster]
-    if(cluster_df.empty==True):
-        continue
-    cluster_df=cluster_df.reset_index()
-    sim_matrix=cosine_similarity(list(cluster_df["vectors"]))
-    sums=[]
-    for i in sim_matrix:
-        sums.append(sum(i))
-    index=np.argmax(sums)
+countries=np.unique(best_dataframe2["country"])
+for country in countries:
+    best_dataframe=best_dataframe2[best_dataframe2["country"]==country]
+    cluster_length=[]
+    for cluster in unique_clusters:
+        cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==cluster]
+        cluster_length.append(len(cluster_df))
     
-    final_texts.append(cluster_df["text"][index])
+    len_cluster_tuples=list(heapq.nlargest(10, zip(cluster_length, unique_clusters)))
+    len_cluster_tuples=list(zip(*len_cluster_tuples)) 
+    top_clusters=list(len_cluster_tuples[1])
+    
+    final_texts=[]
+    
+    #print(best_dataframe["predicted_cluster"])
+    
+    for top_cluster in top_clusters:
+        cluster_df=best_dataframe[best_dataframe["predicted_cluster"]==top_cluster]
+        if(cluster_df.empty==True):
+            continue
+        cluster_df=cluster_df.reset_index()
+        sim_matrix=cosine_similarity(list(cluster_df["vectors"]))
+        sums=[]
+        for i in sim_matrix:
+            sums.append(sum(i))
+        index=np.argmax(sums)
+        
+        final_texts.append(cluster_df["text"][index])
+    
+    diction[country]=final_texts
 
-# print(json.dumps(final_texts))
-
-diction={"USA":final_texts,"Singapore":[]}
 print(json.dumps(diction))
-
 #twit is the list of the output from the api
 
 #0. For each country
@@ -251,5 +285,3 @@ print(json.dumps(diction))
 #2. Automated K means - clustering
 #3. Top 3 cluster representatives
 #4. Return
-
-
