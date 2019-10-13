@@ -52,14 +52,26 @@ async function update(query){
     if (true){
         console.log("done")
         var countries = [];
+        var length = [];
         Object.entries(data).forEach(([key,value])=>{
-            console.log(value)
             if (value.length != 0 && !hasNumber(key)){
-                countries.push(key);
+                length.push(value.length)
             }
         })
+        length.sort();
+        length.reverse();
+        length = length.slice(0,3);
+        Object.entries(data).forEach(([key,value])=>{
+            if (value.length != 0 && !hasNumber(key)){
+                if (length.includes(value.length)){
+                    countries.push(key);
+                    length.splice(length.indexOf(value.length),1)
+                }
+            }
+        })
+
         var max = countries.length;
-        if (countries.length > 3){
+        if (max > 3){
             max = 3;
         }
         update_button(countries,max);
