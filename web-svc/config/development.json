@@ -3,6 +3,12 @@
   "endpoints_file": "../etc/endpoints.json",
   "client_secret": "secret",
   "python": {
-    "twitter": ""
+    "twitter": "../intuition_nlp_backend/nlp_complete.py"
+  },
+  "snoowrap": {
+    "userAgent": "slimechips",
+    "clientId": "perspectives-bot",
+    "clientSecret": "OkaXd8eDuJ8pcy6wGq8IUWRlvV0",
+    "refreshToken": "asdflol"
   }
 }

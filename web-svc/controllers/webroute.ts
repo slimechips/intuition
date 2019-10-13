@@ -8,7 +8,7 @@ export const router = Router();
 
 export const getPerspectives = (req: Request,
   res: Response, next: NextFunction): void => {
-  getTwitter(getSearchParams(req.query))
+  getTwitter(getSearchParams(req.query.searchText))
     .then((data: object) => {
       res.status(200).json(data);
     })
@@ -21,14 +21,6 @@ const getSearchParams = (query: string): string[] => {
 };
 
 const getTwitter = (query: string[]): Promise<object> => {
-  if (true) {
-    return Promise.resolve({
-      Singapore: ['Singapore rox', 'not really lol', 'u wot m8'],
-      India: ['India numba 1'],
-      Indo: ['we love haze'],
-    });
-  }
-
   return new Promise((resolve, reject): void => {
     runPython(cfg.python.twitter, query)
       .then((data: object) => {
