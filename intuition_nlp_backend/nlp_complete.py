@@ -36,11 +36,10 @@ try:
 
     # it's about time to create a TwitterSearch object with our secret tokens
     ts = TwitterSearch(
-        consumer_key = 'N3qC5nYppUN9OFkdC5Hd2w5Lw',
-        consumer_secret = 'dlR0NquCv5NMj3AtTxbUDPLZ9G5ezP4i9S8RYxNLQQhOM5GEgE',
-        access_token = '1182649652581036032-aKikGGF728lqHUaqHSnYxp8VIQ3OXT',
-        access_token_secret = 'CxL62nzSB4gDbWlhdRASGgeMXGXS5syqaPkMLlkjQBVMo')
-
+        consumer_key = 'pBuUgmNwCz54gmDF8GwU38AYm',
+        consumer_secret = 'Bphw2DE6XB047l9gmMbZIDWo6W7T3Uz7d5duETQuBP2HKN0jkp',
+        access_token = '1182649652581036032-iSG4xluU7YyjRKzZtJCp8rTo8yPv1d',
+        access_token_secret = 'VcFdtKSjPQx5fmTbIG78Jj8b83jXvwgjJQw5Uextw4NTB')
      # this is where the fun actually starts :)
     for tweet in ts.search_tweets_iterable(tso):
         #print( '@%s tweeted: %s' % ( tweet['user']['screen_name'], tweet['text'] ) )
