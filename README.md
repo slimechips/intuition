@@ -10,7 +10,7 @@
 ![Perspective Bot](perspectivebot.png)
 
 ### Problem Statement
-* Many sources people consider to be ‘news sources’ are actually dominated by analysis and opinion pieces. It is hard for people to determine news as 'news' or 'opinions'.  
+* Many sources people consider to be ‘news sources’or 'forums' are actually dominated by analysis and opinion pieces. It is hard for people to determine news as 'news' or 'opinions'.  
 * People base judgements on limited information, unaware of other view-points, which results in a lack of perspective about global issues. 
 * It is important to reduce the bias that the media introduces as well as our own biases. 
 
