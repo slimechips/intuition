@@ -5,8 +5,10 @@
   "python": {
     "twitter": "../intuition_nlp_backend/nlp_complete.py"
   },
-  "snooowrap": {
-    "userAgent": "intuitive",
-    "clientId": ""
+  "snoowrap": {
+    "userAgent": "slimechips",
+    "clientId": "perspectives-bot",
+    "clientSecret": "OkaXd8eDuJ8pcy6wGq8IUWRlvV0",
+    "refreshToken": "asdflol"
   }
 }

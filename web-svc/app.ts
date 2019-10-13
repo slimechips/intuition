@@ -10,6 +10,7 @@ import { errorHandler } from 'common-util/error';
 
 // Controllers
 import * as webController from './controllers/webroute';
+import * as redditController from './controllers/reddit';
 
 const app: express.Application = express();
 
@@ -19,12 +20,15 @@ app.use(bodyParser.json()); // Body Parser Middle Ware
 app.use(reqLogger); // Logger Middleware
 app.use(cors({ origin: '*' })); // Cors middleware
 
-
 // Init user controller internal routes here
 webController.router.get('/', webController.getPerspectives);
 
+// Reddit Controller
+redditController.router.get('/posts', redditController.getPosts);
+
 // Add custom controller routes here
 app.use('/', webController.router);
+app.use('/reddit', redditController.router);
 
 // Error Handling Middleware goes here
 app.use(errorHandler);

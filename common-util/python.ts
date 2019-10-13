@@ -1,7 +1,7 @@
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 
 export const runPython = (pythonFile: string, params: Array<string>): Promise<object> => {
-  const pyS: ChildProcessWithoutNullStreams = spawn('python3',
+  const pyS: ChildProcessWithoutNullStreams = spawn('/usr/bin/python3.6',
     [pythonFile].concat(`"${params}"`));
   return new Promise((resolve, reject): void => {
     pyS.stdout.on('data', (data: Buffer) => {
