@@ -21,6 +21,7 @@ Our team built a pipeline based on the state-of-the-art BERT model with Twitter 
 
 ### Screenshots
 ![Click](http://52.246.249.29:3030/public/screen3.jpg)
+![Webpage](http://52.246.249.29:3030/public/screen4.png)
 
 ### Installation
 1. Download Google Chrome Extention from [here](https://github.com/slimechips/intuition/tree/master/chrome_ext).
