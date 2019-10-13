@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import path from 'path';
 
 const svc = 'web';
 process.env.SVC = `${svc}-svc`;
@@ -29,6 +30,9 @@ redditController.router.get('/posts', redditController.getPosts);
 // Add custom controller routes here
 app.use('/', webController.router);
 app.use('/reddit', redditController.router);
+
+// public folder
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Error Handling Middleware goes here
 app.use(errorHandler);
