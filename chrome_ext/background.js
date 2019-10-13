@@ -5,7 +5,7 @@
 'use strict';
 
 const generateReport = (text) => {
-  const reportUrl = `http://localhost:3000/report?selectionText=${text}`;
+  const reportUrl = `http://52.246.249.29:3000/report?selectionText=${text}`;
   chrome.tabs.create({
     url: reportUrl,
   })
