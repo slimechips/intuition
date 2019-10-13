@@ -234,8 +234,10 @@ best_dataframe2["id"]=twit_id
 df_countries=[]
 
 for i in range(len(df)):
-    df_countries.append(location(df["location"][i]))
-
+    try:
+        df_countries.append(location(df["location"][i]))
+    except:
+        df_countries.append("NA")
 best_dataframe2["country"]=df_countries
     
 best_dataframe2["text"]=twit_text
